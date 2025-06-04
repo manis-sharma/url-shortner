@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>⚡ Cyber URL Shortener</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(ellipse at center, #0f0f0f 0%, #050505 100%);
+      color: #00f9ff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .container {
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      border-radius: 20px;
+      box-shadow: 0 0 25px #0ff2, 0 0 5px #00f9ff55 inset;
+      padding: 3rem 2rem;
+      max-width: 95vw;
+      width: 100%;
+      max-width: 460px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: #00f9ff;
+      text-shadow: 0 0 8px #00f9ff88;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    input[type="url"] {
+      padding: 0.8rem 1rem;
+      background: #111;
+      color: #00f9ff;
+      border: 2px solid #00f9ff66;
+      border-radius: 10px;
+      font-size: 1rem;
+      outline: none;
+      transition: 0.3s ease;
+      width: 100%;
+    }
+    input[type="url"]:focus {
+      border-color: #00f9ff;
+      box-shadow: 0 0 8px #00f9ff66;
+    }
+    button {
+      padding: 0.8rem 1rem;
+      background: linear-gradient(90deg, #00f9ff, #8e2de2);
+      color: #0f0f0f;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease;
+      box-shadow: 0 0 10px #00f9ff77, 0 0 4px #8e2de277 inset;
+    }
+    button:hover {
+      background: linear-gradient(90deg, #fc5c7d, #6a82fb);
+      box-shadow: 0 0 12px #fc5c7d99, 0 0 6px #6a82fb99 inset;
+      color: #fff;
+    }
+    .short-url-box {
+      margin-top: 2rem;
+      padding: 1.2rem;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid #00f9ff55;
+      border-radius: 10px;
+      box-shadow: 0 0 8px #00f9ff55;
+      font-size: 1rem;
+      color: #fff;
+      word-break: break-word;
+      animation: glowBox 2s ease-in-out infinite alternate;
+    }
+    .short-url-box a {
+      color: #00f9ff;
+      font-weight: bold;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .short-url-box a:hover {
+      color: #fc5c7d;
+      text-decoration: underline;
+    }
+    @keyframes glowBox {
+      from {
+        box-shadow: 0 0 8px #00f9ff44;
+      }
+      to {
+        box-shadow: 0 0 14px #00f9ffdd;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+      input[type="url"], button {
+        font-size: 0.95rem;
+        padding: 0.7rem 0.9rem;
+      }
+      .container {
+        padding: 2rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>⚡ Cyber URL Shortener</h1>
+    <form method="post">
+      {% csrf_token %}
+      <input type="url" name="original_url" placeholder="Enter your long URL..." required />
+      <button type="submit">Shorten</button>
+    </form>
+   {% if short_url %}
+    <div class="short-url-box">
+        <p>Your short URL:</p>
+        <a href="https://{{ request.get_host }}/{{ short_url.short_code }}/" target="_blank">
+            https://{{ request.get_host }}/{{ short_url.short_code }}/
+        </a>
+    </div>
+{% endif %}
+  </div>
+</body>
+</html>
